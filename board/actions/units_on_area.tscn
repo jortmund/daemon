@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://board/actions/units_on_area.gd" type="Script" id=1]
+
+[node name="get_units_on_area" type="Node" groups=[
+"board_action",
+]]
+script = ExtResource( 1 )
+color = 4

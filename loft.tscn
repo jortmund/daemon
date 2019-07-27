@@ -1,0 +1,77 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://loft.gd" type="Script" id=1]
+[ext_resource path="res://board/board.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/meshlibs/opaque.meshlib" type="MeshLibrary" id=3]
+[ext_resource path="res://unit/character.unit.tscn" type="PackedScene" id=4]
+
+[node name="loft" type="Node"]
+script = ExtResource( 1 )
+
+[node name="board" parent="." instance=ExtResource( 2 )]
+editor/display_folded = true
+mesh_library = ExtResource( 3 )
+data = {
+"cells": PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 65534, 0, -1610612736, 65535, 0, 0, 0, 1, 0, 1, 1, 0, 2, 1, -1610612736, 65534, 1, 0, 65535, 1, 0, 0, 2, 536870912, 1, 2, 0, 2, 2, 0, 65534, 2, 0, 65535, 2, 0, 0, 65534, 0, 1, 65534, 0, 2, 65534, 0, 65534, 65534, 0, 65535, 65534, 0, 0, 65535, 0, 1, 65535, 536870912, 2, 65535, 0, 65534, 65535, 536870912, 65535, 65535, 0 )
+}
+
+[node name="nav" parent="board" index="1"]
+data = {
+"cells": PoolIntArray(  )
+}
+
+[node name="area" parent="board" index="2"]
+data = {
+"cells": PoolIntArray(  )
+}
+
+[node name="camera" parent="board" index="3"]
+editor/display_folded = true
+
+[node name="characters" type="Node" parent="."]
+
+[node name="character" parent="characters" instance=ExtResource( 4 )]
+facing = 0
+nick = ""
+CustomPortrait = null
+Level = 5
+Str = 3
+Dex = 3
+Agi = 3
+Con = 3
+Vit = 3
+Int = 3
+
+[node name="character2" parent="characters" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+cell = Vector3( 0, 0, 1 )
+facing = 0
+nick = ""
+CustomPortrait = null
+Level = 5
+Str = 3
+Dex = 3
+Agi = 3
+Con = 3
+Vit = 3
+Int = 3
+
+[node name="character3" parent="characters" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2 )
+cell = Vector3( -2, 0, -1 )
+facing = 0
+nick = ""
+CustomPortrait = null
+Level = 5
+Str = 3
+Dex = 3
+Agi = 3
+Con = 3
+Vit = 3
+Int = 3
+
+[node name="furnitures" type="Node" parent="."]
+
+[node name="ui" type="CanvasLayer" parent="."]
+
+[editable path="board"]

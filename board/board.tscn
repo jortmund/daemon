@@ -1,0 +1,214 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://board/board.gd" type="Script" id=1]
+[ext_resource path="res://board/area.meshlib" type="MeshLibrary" id=2]
+[ext_resource path="res://board/camera.gd" type="Script" id=3]
+[ext_resource path="res://board/target.png" type="Texture" id=4]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type spatial;
+render_mode specular_toon;
+
+uniform sampler2D noise;
+uniform vec4 color : hint_color;
+
+float wave(vec2 position) {
+  position += texture(noise, position / 8.0).x * 2.0 - 1.0;
+  vec2 wv = 1.0 - abs(sin(position));
+  return pow(1.0 - pow(wv.x * wv.y, 0.66), 3.0);
+}
+
+float height(vec2 position, float time) {
+  float d = wave((position + time) * 0.3) * 0.25;
+  d += wave((position - time) * 0.4) * 0.25;
+  return d;
+}
+
+void vertex() {
+	vec2 pos = VERTEX.xz;
+	float k = height(pos, TIME);
+	VERTEX.y = k;
+	NORMAL = normalize(vec3(k - height(pos + vec2(0.1, 0.0), TIME), 0.1, k - height(pos + vec2(0.0, 0.1), TIME)));
+}
+
+void fragment() {
+	ALPHA = color.a;
+	ROUGHNESS = 0.0011;
+	METALLIC = 0.1;
+	ALBEDO = color.xyz;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=2]
+
+[sub_resource type="NoiseTexture" id=3]
+width = 256
+height = 1024
+seamless = true
+noise = SubResource( 2 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 1 )
+shader_param/color = Color( 0, 0.262745, 0.368627, 0.337255 )
+shader_param/noise = SubResource( 3 )
+
+[sub_resource type="PlaneMesh" id=5]
+material = SubResource( 4 )
+size = Vector2( 64, 64 )
+subdivide_width = 128
+subdivide_depth = 128
+
+[sub_resource type="ProceduralSky" id=6]
+ground_bottom_color = Color( 0.647059, 0.839216, 0.945098, 1 )
+ground_horizon_color = Color( 0.839216, 0.945098, 0.980392, 1 )
+ground_curve = 0.64
+
+[sub_resource type="Environment" id=7]
+background_mode = 2
+background_sky = SubResource( 6 )
+ss_reflections_enabled = true
+glow_enabled = true
+adjustment_enabled = true
+
+[sub_resource type="PrismMesh" id=8]
+size = Vector3( 0.4, 0.6, 0.1 )
+
+[sub_resource type="SpatialMaterial" id=9]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+
+[sub_resource type="SpatialMaterial" id=10]
+flags_transparent = true
+flags_unshaded = true
+flags_disable_ambient_light = true
+albedo_texture = ExtResource( 4 )
+
+[sub_resource type="PlaneMesh" id=11]
+material = SubResource( 10 )
+
+[sub_resource type="Animation" id=12]
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("arrow:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 3.5, 0 ), Vector3( 0, 3, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("cell:mesh:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2, 2 ), Vector2( 1.7, 1.7 ) ]
+}
+
+[node name="board" type="GridMap"]
+cell_size = Vector3( 2, 1, 2 )
+cell_octant_size = 1
+cell_center_x = false
+cell_center_y = false
+cell_center_z = false
+data = {
+"cells": PoolIntArray(  )
+}
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_clip_": 0
+}
+
+[node name="environment" type="Node" parent="."]
+editor/display_folded = true
+
+[node name="sun" type="OmniLight" parent="environment"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 32, -32 )
+shadow_enabled = true
+shadow_bias = -0.03
+omni_range = 256.0
+omni_shadow_mode = 0
+
+[node name="water" type="MeshInstance" parent="environment"]
+visible = false
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="worldenv" type="WorldEnvironment" parent="environment"]
+environment = SubResource( 7 )
+
+[node name="nav" type="GridMap" parent="."]
+mesh_library = ExtResource( 2 )
+cell_size = Vector3( 2, 1, 2 )
+cell_octant_size = 1
+cell_center_x = false
+cell_center_y = false
+cell_center_z = false
+data = {
+"cells": PoolIntArray(  )
+}
+__meta__ = {
+"_editor_clip_": 0
+}
+
+[node name="area" type="GridMap" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0 )
+mesh_library = ExtResource( 2 )
+cell_size = Vector3( 2, 1, 2 )
+cell_octant_size = 1
+cell_center_x = false
+cell_center_y = false
+cell_center_z = false
+data = {
+"cells": PoolIntArray(  )
+}
+__meta__ = {
+"_edit_lock_": true,
+"_editor_clip_": 0,
+"_editor_floor_": Vector3( 0, 1, 0 )
+}
+
+[node name="camera" type="Spatial" parent="."]
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+cell = Vector3( 0, 0, 0 )
+
+[node name="view" type="Camera" parent="camera"]
+transform = Transform( 0.707107, 0.40558, -0.579228, 0, 0.819152, 0.573576, 0.707107, -0.40558, 0.579228, -45, 45, 45 )
+projection = 1
+current = true
+size = 15.0
+near = 1.0
+
+[node name="arrow" type="MeshInstance" parent="camera"]
+transform = Transform( 0.819152, -5.01437e-008, 0.573577, 0, -1, -8.74228e-008, 0.573577, 7.16125e-008, -0.819152, 0, 3.5, 0 )
+cast_shadow = 0
+mesh = SubResource( 8 )
+material/0 = SubResource( 9 )
+
+[node name="cell" type="MeshInstance" parent="camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, 0 )
+mesh = SubResource( 11 )
+material/0 = null
+
+[node name="anim" type="AnimationPlayer" parent="camera"]
+autoplay = "cell_tween"
+anims/cell_tween = SubResource( 12 )
+
+[node name="ui" type="Control" parent="camera"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="events" type="Node" parent="."]

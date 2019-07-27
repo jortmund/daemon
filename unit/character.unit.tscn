@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://unit/unit.tscn" type="PackedScene" id=1]
+[ext_resource path="res://unit/character.unit.gd" type="Script" id=2]
+[ext_resource path="res://db/weapons/dagger.tres" type="Resource" id=3]
+[ext_resource path="res://db/armor/cloths.tres" type="Resource" id=4]
+
+[node name="character" index="0" groups=[
+"character",
+] instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+group = 1
+Wpn = ExtResource( 3 )
+Amr = ExtResource( 4 )
+
+[node name="area" parent="." index="0"]
+data = {
+"cells": PoolIntArray( 0, 0, 0, 65536, 0, 0 )
+}

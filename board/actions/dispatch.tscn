@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://board/actions/dispatch.gd" type="Script" id=1]
+
+[node name="dispatch_event" type="Node" groups=[
+"board_action",
+]]
+script = ExtResource( 1 )

@@ -1,0 +1,96 @@
+[gd_scene load_steps=14 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_color = Color( 1, 1, 1, 0.294118 )
+
+[sub_resource type="PlaneMesh" id=2]
+material = SubResource( 1 )
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_color = Color( 1, 0, 0, 0.294118 )
+
+[sub_resource type="PlaneMesh" id=4]
+material = SubResource( 3 )
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_color = Color( 0.501961, 1, 0, 0.501961 )
+
+[sub_resource type="PlaneMesh" id=6]
+material = SubResource( 5 )
+
+[sub_resource type="SpatialMaterial" id=7]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_color = Color( 0, 0.670588, 1, 0.294118 )
+
+[sub_resource type="PlaneMesh" id=8]
+material = SubResource( 7 )
+
+[sub_resource type="SpatialMaterial" id=9]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_color = Color( 1, 1, 0, 0.501961 )
+
+[sub_resource type="PlaneMesh" id=10]
+material = SubResource( 9 )
+
+[sub_resource type="SpatialMaterial" id=11]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+albedo_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="PlaneMesh" id=12]
+material = SubResource( 11 )
+
+[sub_resource type="CubeMesh" id=13]
+material = SubResource( 11 )
+size = Vector3( 2, 1, 2 )
+
+[node name="area_meshlib" type="Node"]
+
+[node name="white" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.92773 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="red" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.23462 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="green" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.63648 )
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="blue" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.14771 )
+mesh = SubResource( 8 )
+material/0 = null
+
+[node name="yellow" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.40625 )
+mesh = SubResource( 10 )
+material/0 = null
+
+[node name="black" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.90479 )
+mesh = SubResource( 12 )
+material/0 = null
+
+[node name="black_block" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.69507 )
+mesh = SubResource( 13 )
+material/0 = null

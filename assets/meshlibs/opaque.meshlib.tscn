@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.352941, 0.972549, 0.34902, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+material = SubResource( 1 )
+size = Vector3( 2, 1, 2 )
+
+[node name="opaque_meshlib" type="Node"]
+
+[node name="green" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = null
